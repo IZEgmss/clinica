@@ -20,4 +20,13 @@ public class Paciente {
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Consulta> consultas;
+
+    @ManyToMany
+    @JoinTable(
+            name = "paciente_exame", // Nome da tabela intermediária no banco
+            joinColumns = @JoinColumn(name = "paciente_id"), // Coluna que referencia o Paciente
+            inverseJoinColumns = @JoinColumn(name = "exame_id") // Coluna que referencia o Exame
+    )
+    private List<Exame> exames;
+    // ---------------------------
 }

@@ -20,10 +20,14 @@ public class Consulta {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataConsulta;
 
-    private String paciente;
+    private String nome;
     private String observacoes;
 
     @ManyToOne
     @JoinColumn(name = "medico_id")
     private Medico medico;
+
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
 }
