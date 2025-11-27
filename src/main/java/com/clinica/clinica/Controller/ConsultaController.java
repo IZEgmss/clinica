@@ -2,7 +2,6 @@ package com.clinica.clinica.Controller;
 
 import com.clinica.clinica.model.Consulta;
 import com.clinica.clinica.service.ConsultaService;
-import com.clinica.clinica.service.MedicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

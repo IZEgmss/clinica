@@ -28,7 +28,7 @@ public class PacienteController {
 
     @PostMapping("/salvar")
     public String salvarPaciente(@ModelAttribute Paciente paciente) {
-        paciente.save(paciente);
+        pacienteService.save(paciente);
         return "redirect:/pacientes";
     }
 
