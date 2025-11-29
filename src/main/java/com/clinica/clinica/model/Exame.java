@@ -2,23 +2,29 @@ package com.clinica.clinica.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Exame {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer id;
 
     private String nome; // Ex: Hemograma, Raio-X
     private String descricao;
 
-    // O "mappedBy" indica que o lado forte da relação (quem manda na tabela de junção) é o Paciente
-    @ManyToMany(mappedBy = "exames")
-    private List<Paciente> pacientes;
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
 }

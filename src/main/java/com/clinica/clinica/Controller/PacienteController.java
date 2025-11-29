@@ -23,7 +23,7 @@ public class PacienteController {
     @GetMapping("/novo")
     public String novoPacienteForm(Model model) {
         model.addAttribute("paciente", new Paciente());
-        return "pacientes/form-pacienete";
+        return "pacientes/form-paciente";
     }
 
     @PostMapping("/salvar")
@@ -35,7 +35,7 @@ public class PacienteController {
     @GetMapping("/editar/{id}")
     public String editarPacienteForm(@PathVariable Integer id, Model model) {
         pacienteService.findById(id).ifPresent(paciente -> model.addAttribute("paciente", paciente));
-        return "paciente/form-paciente";
+        return "pacientes/form-paciente";
     }
 
     @GetMapping("/excluir/{id}")
@@ -44,3 +44,4 @@ public class PacienteController {
         return "redirect:/pacientes";
     }
 }
+

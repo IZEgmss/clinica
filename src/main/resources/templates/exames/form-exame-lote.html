@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Exames em Lote</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Cadastro de Exames em Lote</h1>
+
+    <form th:action="@{/exames/salvar-lote}" th:object="${exameLote}" method="post">
+        
+        <div class="mb-3">
+            <label for="pacienteId" class="form-label">Paciente:</label>
+            <select id="pacienteId" th:field="*{pacienteId}" class="form-select" required>
+                <option value="">Selecione um paciente</option>
+                <option th:each="p : ${pacientes}" th:value="${p.id}" th:text="${p.nome}">Nome do Paciente</option>
+            </select>
+        </div>
+
+        <h3>Exames</h3>
+        <table class="table" id="examesTable">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Ação</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item, stat : *{exames}">
+                <td>
+                    <input type="text" th:field="*{exames[__${stat.index}__].nome}" class="form-control" placeholder="Nome do Exame" required/>
+                </td>
+                <td>
+                    <input type="text" th:field="*{exames[__${stat.index}__].descricao}" class="form-control" placeholder="Descrição"/>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remover</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <button type="button" class="btn btn-primary mb-3" onclick="addRow()">Adicionar Outro Exame</button>
+        <br>
+        <button type="submit" class="btn btn-success">Salvar Todos</button>
+        <a href="/exames" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+<script>
+    function addRow() {
+        const tableBody = document.querySelector('#examesTable tbody');
+        const rowCount = tableBody.rows.length;
+        const row = tableBody.insertRow();
+        
+        row.innerHTML = `
+            <td>
+                <input type="text" name="exames[${rowCount}].nome" class="form-control" placeholder="Nome do Exame" required/>
+            </td>
+            <td>
+                <input type="text" name="exames[${rowCount}].descricao" class="form-control" placeholder="Descrição"/>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remover</button>
+            </td>
+        `;
+    }
+
+    function removeRow(btn) {
+        const tableBody = document.querySelector('#examesTable tbody');
+        if (tableBody.rows.length > 1) {
+            btn.closest('tr').remove();
+            reindexRows();
+        } else {
+            alert("É necessário ter pelo menos um exame.");
+        }
+    }
+
+    function reindexRows() {
+        const rows = document.querySelectorAll('#examesTable tbody tr');
+        rows.forEach((row, index) => {
+            const inputs = row.querySelectorAll('input');
+            inputs[0].name = `exames[${index}].nome`;
+            inputs[1].name = `exames[${index}].descricao`;
+        });
+    }
+</script>
+
+</body>
+</html>
